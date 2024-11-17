@@ -1,7 +1,7 @@
 <template>
   <div class="comfort-container">
     <div class="header">
-      <h2>{{ currentMood ? '让我来哄哄你～' : '亲爱的，心情不好吗？' }}</h2>
+      <h2>{{ currentMood ? '让我来哄哄你～' : '亲爱的胡玲，心情不好吗？' }}</h2>
     </div>
 
     <div v-if="!currentMood" class="mood-selection">

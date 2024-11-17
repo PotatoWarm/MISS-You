@@ -16,6 +16,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+      
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
@@ -25,21 +26,28 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          # cache: 'pnpm'
+          cache: 'pnpm'
 
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install and Build 🔧
         run: |
-          pnpm i --no-frozen-lockfile
+          pnpm install
           pnpm build
 
       - name: Deploy 🚀
         uses: peaceiris/actions-gh-pages@v3
         with:
-          publish_dir: dist # The folder the action should deploy.
-
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist

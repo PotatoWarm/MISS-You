@@ -1,4 +1,4 @@
-# test-vue1
+# test-vue
 
 ## Project setup
 ```

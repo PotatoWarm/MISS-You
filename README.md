@@ -1,6 +1,6 @@
 # test-vue
 
-## Project setup1111
+## Project setup
 ```
 npm install
 ```
